@@ -3,6 +3,7 @@ import { Segment, Form, Button } from "semantic-ui-react";
 
 class EventForm extends Component {
   render() {
+    const {cancelFormOpen} = this.props;
     return (
       <Segment>
         <Form>
@@ -27,7 +28,7 @@ class EventForm extends Component {
             <input placeholder='Enter the name of person hosting' />
           </Form.Field>
           <Button positive type='submit'>Submit</Button>
-          <Button type='button'>Cancel</Button>
+          <Button onClick={cancelFormOpen} type='button'>Cancel</Button>
         </Form>
       </Segment>
     );
