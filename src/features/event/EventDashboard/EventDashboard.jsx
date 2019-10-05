@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Grid, Button } from "semantic-ui-react";
 import EventList from "../EventList/EventList";
 import EventForm from "../EventForm/EventForm";
+import cuid from "cuid";
 
 // static props
 const events = [
@@ -63,10 +64,21 @@ class EventDashboard extends Component {
 
   // Synchronous toggling of the Event Form
   handleIsOpenToggle = () => {
-    this.setState(({isOpen}) => ({
+    this.setState(({ isOpen }) => ({
       isOpen: !isOpen
-    }))
-  }
+    }));
+  };
+
+  handleCreateEvent = newEvent => {
+    newEvent.id = cuid();
+    newEvent.hostPhotoURL = "/assets/user.png";
+    // 'events' = events from previous state
+    this.setState(({ events }) => ({
+      // array of 'events', includes previous events and newly created
+      events: [...events, newEvent],
+      isOpen: false
+    }));
+  };
 
   render() {
     const { events, isOpen } = this.state;
@@ -76,8 +88,17 @@ class EventDashboard extends Component {
           <EventList events={events} />
         </Grid.Column>
         <Grid.Column width={6}>
-          <Button onClick={this.handleIsOpenToggle} positive content='Create Event' />
-          {isOpen && <EventForm cancelFormOpen={this.handleIsOpenToggle}/>}
+          <Button
+            onClick={this.handleIsOpenToggle}
+            positive
+            content='Create Event'
+          />
+          {isOpen && (
+            <EventForm
+              createEvent={this.handleCreateEvent}
+              cancelFormOpen={this.handleIsOpenToggle}
+            />
+          )}
         </Grid.Column>
       </Grid>
     );

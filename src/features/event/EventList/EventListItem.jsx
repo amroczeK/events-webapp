@@ -18,9 +18,9 @@ class EventListItem extends Component {
             <Item>
               <Item.Image size='tiny' circular src={event.hostPhotoURL} />
               <Item.Content>
-                <Item.Header as='a'>{event.title}</Item.Header>
+                <Item.Header>{event.title}</Item.Header>
                 <Item.Description>
-                  Hosted by <a>{event.hostedBy}</a>
+                  Hosted by {event.hostedBy}
                 </Item.Description>
               </Item.Content>
             </Item>
@@ -34,7 +34,11 @@ class EventListItem extends Component {
         </Segment>
         <Segment secondary>
           <List horizontal>
-            {event.attendees.map(attendee => (
+            {/* 
+              Using && creates a true/false conditional method, right hand 
+              side of && only gets executed if event.attendees is TRUE.
+            */}
+            {event.attendees && event.attendees.map(attendee => (
               <EventListAttendee key={attendee.id} attendee={attendee} />
             ))}
           </List>
